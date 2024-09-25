@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RoleController; 
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\EtablissementController;
 
 Route::post('/users/{userId}/assign-role', [AuthController::class, 'assignRole']);
 Route::post('/users/{userId}/remove-role', [AuthController::class, 'removeRole']);
@@ -39,4 +40,13 @@ Route::group([
     Route::post('/addRoleToUser/{userId}', [UserRoleController::class, 'addRoleToUser'])->name('addRoleToUser');
     Route::post('/sync-roles-to-user/{userId}', [UserRoleController::class, 'syncRolesToUser'])->name('syncRolesToUser');
     Route::post('/remove-role-from-user/{userId}', [UserRoleController::class, 'removeRoleFromUser'])->name('removeRoleFromUser');
+});
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'etablissement'
+], function ($router) {
+    Route::get('/getAll', [EtablissementController::class, 'getAll'])->name('getAll');
+    Route::post('/create', [EtablissementController::class, 'create'])->name('create');
+    Route::post('/update/{id}', [EtablissementController::class, 'update'])->name('update');
+    Route::delete('/delete/{id}', [EtablissementController::class, 'delete'])->name('delete');
 });
